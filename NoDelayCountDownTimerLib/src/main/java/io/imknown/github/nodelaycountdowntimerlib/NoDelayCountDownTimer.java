@@ -1,5 +1,6 @@
 package io.imknown.github.nodelaycountdowntimerlib;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -153,10 +154,10 @@ public abstract class NoDelayCountDownTimer {
     });
 
     /**
-     * @param mss 间隔的毫秒
-     * @return 格式化 时间字符串
+     * @param mss interval in millisecond
+     * @return formatted date string
      */
-    public static String formatDuring(long mss) {
+    public static String formatDuring(long mss, Context context) {
         String time = "";
 
         long days = mss / (1000 * 60 * 60 * 24);
@@ -165,19 +166,19 @@ public abstract class NoDelayCountDownTimer {
         long seconds = (mss % (1000 * 60)) / 1000;
 
         if (seconds != 0) {
-            time = seconds + "秒";
+            time = seconds + context.getString(R.string.second);
         }
 
         if (minutes != 0) {
-            time = minutes + "分" + time;
+            time = minutes + context.getString(R.string.minute) + time;
         }
 
         if (hours != 0) {
-            time = hours + "小时" + time;
+            time = hours + context.getString(R.string.hour) + time;
         }
 
         if (days != 0) {
-            time = days + "天" + time;
+            time = days + context.getString(R.string.day) + time;
         }
 
         return time;

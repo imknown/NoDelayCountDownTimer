@@ -1,5 +1,7 @@
 <resources>
-
     <string name="app_name">NoDelayCountDownTimer</string>
 
+    <string name="google_count_down_timer">GoogleCountDownTimer: %1$s Left.</string>
+    <string name="no_delay_count_down_timer">NoDelayCountDownTimer: %s Left.</string>
+    <string name="finishing_counting_down">Finishing counting down.</string>
 </resources>
