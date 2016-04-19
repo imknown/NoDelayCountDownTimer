@@ -1,0 +1,8 @@
+<resources>
+    <string name="google_count_down_timer">GoogleCountDownTimer: 还剩 %1$s.</string>
+    <string name="no_delay_count_down_timer">NoDelayCountDownTimer: 还剩 %s.</string>
+    <string name="finishing_counting_down">倒计时完毕.</string>
+
+    <string name="start">开始</string>
+    <string name="stop">停止</string>
+</resources>
