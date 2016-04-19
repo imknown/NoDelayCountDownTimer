@@ -3,6 +3,8 @@ package com.dengdeng123.nodelaycountdowntimer;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -21,23 +23,47 @@ public class MainActivity extends Activity {
     private TextView googleCountDownTimerTv;
     private TextView noDelayCountDownTimerTv;
 
-    long howLongLeftInSecond /* = NoDelayCountDownTimer.SIXTY_SECONDS */;
+    private Button startBtn;
+    private Button cancelBtn;
+
+    private long howLongLeftInSecond /* = NoDelayCountDownTimer.SIXTY_SECONDS */;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initView();
+
         initDatetime();
 
         initGoogleCountDownTimer();
         initNoDelayCountDownTimer();
-
-        googleCountDownTimer.start();
-        noDelayCountDownTimer.start();
     }
 
-    void initDatetime() {
+    private void initView() {
+        googleCountDownTimerTv = (TextView) findViewById(R.id.googleCountDownTimerTv);
+        noDelayCountDownTimerTv = (TextView) findViewById(R.id.noDelayCountDownTimerTv);
+
+        startBtn = (Button) findViewById(R.id.startBtn);
+        cancelBtn = (Button) findViewById(R.id.cancelBtn);
+
+        startBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startCountDownTimer();
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelCountDownTimer();
+            }
+        });
+    }
+
+    private void initDatetime() {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
         // 当前时间
@@ -58,9 +84,7 @@ public class MainActivity extends Activity {
         howLongLeftInSecond = endDatetime.getTime() - currentDatetime.getTime();
     }
 
-    void initGoogleCountDownTimer() {
-        googleCountDownTimerTv = (TextView) findViewById(R.id.googleCountDownTimerTv);
-
+    private void initGoogleCountDownTimer() {
         googleCountDownTimer = new CountDownTimer(howLongLeftInSecond, NoDelayCountDownTimer.ONE_SECOND) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -73,13 +97,15 @@ public class MainActivity extends Activity {
             @Override
             public void onFinish() {
                 googleCountDownTimerTv.setText(R.string.finishing_counting_down);
+
+                // stop slower than NoDelayCountDownTimer's onFinish()
+                startBtn.setEnabled(true);
+                cancelBtn.setEnabled(false);
             }
         };
     }
 
-    void initNoDelayCountDownTimer() {
-        noDelayCountDownTimerTv = (TextView) findViewById(R.id.noDelayCountDownTimerTv);
-
+    private void initNoDelayCountDownTimer() {
         noDelayCountDownTimer = new NoDelayCountDownTimerInjector<TextView>(noDelayCountDownTimerTv, howLongLeftInSecond).inject(new NoDelayCountDownTimerInjector.ICountDownTimerCallback() {
             @Override
             public void onTick(long howLongLeft, String howLongSecondLeftInStringFormat) {
@@ -95,10 +121,29 @@ public class MainActivity extends Activity {
         });
     }
 
-    @Override
-    protected void onDestroy() {
+    private void startCountDownTimer() {
+        // need to renew to refuse bugs
+        initNoDelayCountDownTimer();
+
+        googleCountDownTimer.start();
+        noDelayCountDownTimer.start();
+
+        startBtn.setEnabled(false);
+        cancelBtn.setEnabled(true);
+    }
+
+    private void cancelCountDownTimer() {
+        googleCountDownTimer.cancel();
         noDelayCountDownTimer.cancel();
 
+        startBtn.setEnabled(true);
+        cancelBtn.setEnabled(false);
+    }
+
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
+
+        cancelCountDownTimer();
     }
 }
