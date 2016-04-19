@@ -1,15 +1,20 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+version = "1.0.0"
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 7
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName version
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -23,3 +28,95 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
 }
+
+// region [bintray]
+def siteUrl = 'https://github.com/imknown/NoDelayCountDownTimer'
+def gitUrl = 'https://github.com/imknown/NoDelayCountDownTimer.git'
+def projectDescription = 'Smooth callback-able CountDownTimer with injection.'
+group = "net.imknown"
+
+def packagingType = 'aar'
+def whichRepo = "maven" // 发布到 Bintray 的 maven 库
+def bintrayProjectName = "NoDelayCountDownTimer" // 发布到 Bintray 上 的 项目名字
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging packagingType
+                name projectDescription
+                url siteUrl
+
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                def user = 'imknown'
+                def userEmail = 'imknown@sina.com'
+
+                developers {
+                    developer {
+                        id user
+                        name user
+                        email userEmail
+                    }
+                }
+
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+
+
+bintray {
+//    user = System.getenv('BINTRAY_USER')
+//    key = System.getenv('BINTRAY_KEY')
+
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+
+    pkg {
+        repo = whichRepo
+        name = bintrayProjectName
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
+// endregion

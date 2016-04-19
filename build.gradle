@@ -5,6 +5,12 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.0.0'
+
+        // https://github.com/bintray/gradle-bintray-plugin
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
+
+        // https://github.com/dcendents/android-maven-gradle-plugin
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
     }
 }
 
