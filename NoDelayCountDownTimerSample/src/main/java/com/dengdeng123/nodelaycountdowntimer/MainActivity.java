@@ -38,6 +38,7 @@ public class MainActivity extends Activity {
         initDatetime();
 
         initGoogleCountDownTimer();
+        // set in startCountDownTimer() to againsr init bugs
         initNoDelayCountDownTimer();
     }
 
