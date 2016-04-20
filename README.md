@@ -1,6 +1,9 @@
 # NoDelayCountDownTimer
 Smooth callback-able CountDownTimer with injection.
 
+### Screen record
+![github](https://raw.githubusercontent.com/imknown/NoDelayCountDownTimer/master/Art/screen_record.gif "github")
+
 # Install to project from jCenter
 ### Maven dependency
 ``` xml
