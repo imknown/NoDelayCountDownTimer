@@ -10,13 +10,13 @@ Smooth callback-able CountDownTimer with injection.
 <dependency>
   <groupId>net.imknown</groupId>
   <artifactId>NoDelayCountDownTimerLib</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <type>pom</type>
 </dependency>
 ```
 
 ### Gradle dependency
-`compile 'net.imknown:NoDelayCountDownTimerLib:1.0.0'`
+`compile 'net.imknown:NoDelayCountDownTimerLib:1.0.1'`
 
 ### More info
 https://bintray.com/imknown/maven/NoDelayCountDownTimer/view
