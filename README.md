@@ -16,7 +16,7 @@ Smooth callback-able CountDownTimer with injection.
 `compile 'net.imknown:NoDelayCountDownTimerLib:1.0.0'`
 
 ### More info
-`https://bintray.com/imknown/maven/NoDelayCountDownTimer/view`
+https://bintray.com/imknown/maven/NoDelayCountDownTimer/view
 
 
 
@@ -52,4 +52,4 @@ noDelayCountDownTimer.cancel();
 ```
 
 ### More info
-`https://github.com/imknown/NoDelayCountDownTimer/tree/master/NoDelayCountDownTimerSample`
+https://github.com/imknown/NoDelayCountDownTimer/tree/master/NoDelayCountDownTimerSample
