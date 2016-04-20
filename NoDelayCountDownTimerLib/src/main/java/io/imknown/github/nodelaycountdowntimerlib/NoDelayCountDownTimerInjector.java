@@ -12,13 +12,13 @@ public class NoDelayCountDownTimerInjector<T extends TextView> {
     /**
      * unit: second
      */
-    private long howLongSecondLeft = NoDelayCountDownTimer.SIXTY_SECONDS;
+    private long howLongLeftInMilliSecond = NoDelayCountDownTimer.SIXTY_SECONDS;
 
     private ICountDownTimerCallback iCountDownTimerCallback;
 
-    public NoDelayCountDownTimerInjector(@NonNull T view, long howLongSecondLeft) {
+    public NoDelayCountDownTimerInjector(@NonNull T view, long howLongLeftInMilliSecond) {
         this.view = view;
-        this.howLongSecondLeft = howLongSecondLeft;
+        this.howLongLeftInMilliSecond = howLongLeftInMilliSecond;
     }
 
     public interface ICountDownTimerCallback {
@@ -31,7 +31,7 @@ public class NoDelayCountDownTimerInjector<T extends TextView> {
 
         this.iCountDownTimerCallback = iCountDownTimerCallback;
 
-        MyCountDownTimer mc = new MyCountDownTimer(howLongSecondLeft, NoDelayCountDownTimer.ONE_SECOND);
+        MyCountDownTimer mc = new MyCountDownTimer(howLongLeftInMilliSecond, NoDelayCountDownTimer.ONE_SECOND);
         return mc;
     }
 
@@ -42,11 +42,11 @@ public class NoDelayCountDownTimerInjector<T extends TextView> {
 
         @Override
         public void onTick(long millisUntilFinished) {
-            howLongSecondLeft -= NoDelayCountDownTimer.ONE_SECOND;
+            howLongLeftInMilliSecond -= NoDelayCountDownTimer.ONE_SECOND;
 
-            String howLongSecondLeftInStringFormat = /* super.*/ formatDuring(howLongSecondLeft, view.getContext());
+            String howLongSecondLeftInStringFormat = /* super.*/ formatDuring(howLongLeftInMilliSecond, view.getContext());
 
-            iCountDownTimerCallback.onTick(howLongSecondLeft, howLongSecondLeftInStringFormat);
+            iCountDownTimerCallback.onTick(howLongLeftInMilliSecond, howLongSecondLeftInStringFormat);
         }
 
         @Override

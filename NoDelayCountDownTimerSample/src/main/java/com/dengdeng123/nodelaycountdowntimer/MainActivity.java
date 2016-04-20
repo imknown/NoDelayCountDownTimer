@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
     private Button startBtn;
     private Button cancelBtn;
 
-    private long howLongLeftInSecond /* = NoDelayCountDownTimer.SIXTY_SECONDS */;
+    private long howLongLeftInMilliSecond /* = NoDelayCountDownTimer.SIXTY_SECONDS */;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,11 +81,11 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        howLongLeftInSecond = endDatetime.getTime() - currentDatetime.getTime();
+        howLongLeftInMilliSecond = endDatetime.getTime() - currentDatetime.getTime();
     }
 
     private void initGoogleCountDownTimer() {
-        googleCountDownTimer = new CountDownTimer(howLongLeftInSecond, NoDelayCountDownTimer.ONE_SECOND) {
+        googleCountDownTimer = new CountDownTimer(howLongLeftInMilliSecond, NoDelayCountDownTimer.ONE_SECOND) {
             @Override
             public void onTick(long millisUntilFinished) {
                 String howLongSecondLeftInStringFormat = NoDelayCountDownTimer.formatDuring(millisUntilFinished, MainActivity.this);
@@ -106,7 +106,7 @@ public class MainActivity extends Activity {
     }
 
     private void initNoDelayCountDownTimer() {
-        noDelayCountDownTimer = new NoDelayCountDownTimerInjector<TextView>(noDelayCountDownTimerTv, howLongLeftInSecond).inject(new NoDelayCountDownTimerInjector.ICountDownTimerCallback() {
+        noDelayCountDownTimer = new NoDelayCountDownTimerInjector<TextView>(noDelayCountDownTimerTv, howLongLeftInMilliSecond).inject(new NoDelayCountDownTimerInjector.ICountDownTimerCallback() {
             @Override
             public void onTick(long howLongLeft, String howLongSecondLeftInStringFormat) {
                 String result = getString(R.string.no_delay_count_down_timer, howLongSecondLeftInStringFormat);
