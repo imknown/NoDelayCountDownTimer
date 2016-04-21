@@ -5,9 +5,18 @@ Smooth callback-able CountDownTimer with injection.
 ![github](https://raw.githubusercontent.com/imknown/NoDelayCountDownTimer/master/Art/screen_record.gif "github")
 
 # Install to project from jCenter
-
 ### Gradle dependency
 `compile 'net.imknown:NoDelayCountDownTimerLib:1.1.0'`
+
+### Maven dependency
+ ``` xml
+ <dependency>
+   <groupId>net.imknown</groupId>
+   <artifactId>NoDelayCountDownTimerLib</artifactId>
+   <version>1.1.0</version>
+   <type>pom</type>
+ </dependency>
+ ```
 
 ### More info
 https://bintray.com/imknown/maven/NoDelayCountDownTimer/view
