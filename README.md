@@ -48,6 +48,8 @@ NoDelayCountDownTimer noDelayCountDownTimer = new NoDelayCountDownTimerInjector<
 
 ### Start or cancel
 ``` java
+// set before start to shun some calc bug
+noDelayCountDownTimerInjector.setHowLongLeftInMilliSecond(NoDelayCountDownTimer.SIXTY_SECONDS);
 noDelayCountDownTimer.start();
 ```
 ``` java
