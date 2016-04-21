@@ -14,6 +14,10 @@ public class NoDelayCountDownTimerInjector<T extends TextView> {
      */
     private long howLongLeftInMilliSecond = NoDelayCountDownTimer.SIXTY_SECONDS;
 
+    public void setHowLongLeftInMilliSecond(long howLongLeftInMilliSecond) {
+        this.howLongLeftInMilliSecond = howLongLeftInMilliSecond;
+    }
+
     private ICountDownTimerCallback iCountDownTimerCallback;
 
     public NoDelayCountDownTimerInjector(@NonNull T view, long howLongLeftInMilliSecond) {
@@ -28,7 +32,6 @@ public class NoDelayCountDownTimerInjector<T extends TextView> {
     }
 
     public MyCountDownTimer inject(@NonNull ICountDownTimerCallback iCountDownTimerCallback) {
-
         this.iCountDownTimerCallback = iCountDownTimerCallback;
 
         MyCountDownTimer mc = new MyCountDownTimer(howLongLeftInMilliSecond, NoDelayCountDownTimer.ONE_SECOND);

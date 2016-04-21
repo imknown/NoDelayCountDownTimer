@@ -87,39 +87,6 @@ public abstract class NoDelayCountDownTimer {
 
     private static final int MSG = 1;
 
-    // /** handles counting down */
-    // private Handler mHandler = new Handler() {
-    //
-    // @Override
-    // public void handleMessage(Message msg) {
-    //
-    // synchronized (NoDelayCountDownTimer.this) {
-    // if (mCancelled) {
-    // return;
-    // }
-    //
-    // final long millisLeft = mStopTimeInFuture - SystemClock.elapsedRealtime();
-    //
-    // if (millisLeft <= 0 || millisLeft < mCountdownInterval) {
-    // onFinish();
-    // } else {
-    // long lastTickStart = SystemClock.elapsedRealtime();
-    // onTick(millisLeft);
-    //
-    // // take into account user's onTick taking time to execute
-    // long delay = lastTickStart + mCountdownInterval - SystemClock.elapsedRealtime();
-    //
-    // // special case: user's onTick took more than interval to complete, skip to next interval
-    // while (delay < 0) {
-    // delay += mCountdownInterval;
-    // }
-    //
-    // sendMessageDelayed(obtainMessage(MSG), delay);
-    // }
-    // }
-    // }
-    // };
-
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {

@@ -19,6 +19,7 @@ import io.imknown.github.nodelaycountdowntimerlib.NoDelayCountDownTimerInjector;
 public class MainActivity extends Activity {
     private CountDownTimer googleCountDownTimer;
     private NoDelayCountDownTimer noDelayCountDownTimer;
+    private NoDelayCountDownTimerInjector noDelayCountDownTimerInjector;
 
     private TextView googleCountDownTimerTv;
     private TextView noDelayCountDownTimerTv;
@@ -38,7 +39,6 @@ public class MainActivity extends Activity {
         initDatetime();
 
         initGoogleCountDownTimer();
-        // set in startCountDownTimer() to againsr init bugs
         initNoDelayCountDownTimer();
     }
 
@@ -107,7 +107,9 @@ public class MainActivity extends Activity {
     }
 
     private void initNoDelayCountDownTimer() {
-        noDelayCountDownTimer = new NoDelayCountDownTimerInjector<TextView>(noDelayCountDownTimerTv, howLongLeftInMilliSecond).inject(new NoDelayCountDownTimerInjector.ICountDownTimerCallback() {
+        noDelayCountDownTimerInjector = new NoDelayCountDownTimerInjector<TextView>(noDelayCountDownTimerTv, howLongLeftInMilliSecond);
+
+        noDelayCountDownTimer = noDelayCountDownTimerInjector.inject(new NoDelayCountDownTimerInjector.ICountDownTimerCallback() {
             @Override
             public void onTick(long howLongLeft, String howLongSecondLeftInStringFormat) {
                 String result = getString(R.string.no_delay_count_down_timer, howLongSecondLeftInStringFormat);
@@ -123,8 +125,8 @@ public class MainActivity extends Activity {
     }
 
     private void startCountDownTimer() {
-        // need to renew to refuse bugs
-        initNoDelayCountDownTimer();
+        initDatetime();
+        noDelayCountDownTimerInjector.setHowLongLeftInMilliSecond(howLongLeftInMilliSecond);
 
         googleCountDownTimer.start();
         noDelayCountDownTimer.start();
