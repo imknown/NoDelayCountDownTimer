@@ -29,21 +29,29 @@ https://bintray.com/imknown/maven/NoDelayCountDownTimer/view
 private long howLongLeftInMilliSecond = NoDelayCountDownTimer.SIXTY_SECONDS;
 
 private NoDelayCountDownTimer noDelayCountDownTimer;
+private NoDelayCountDownTimerInjector noDelayCountDownTimerInjector;
+
 private TextView noDelayCountDownTimerTv;
 
-NoDelayCountDownTimer noDelayCountDownTimer = new NoDelayCountDownTimerInjector<TextView>(noDelayCountDownTimerTv, howLongLeftInMilliSecond).inject(new NoDelayCountDownTimerInjector.ICountDownTimerCallback() {
-    @Override
-    public void onTick(long howLongLeft, String howLongSecondLeftInStringFormat) {
-        String result = getString(R.string.no_delay_count_down_timer, howLongSecondLeftInStringFormat);
+...
 
-        noDelayCountDownTimerTv.setText(result);
-    }
+private void initNoDelayCountDownTimer() {
+    noDelayCountDownTimerInjector = new NoDelayCountDownTimerInjector<TextView>(noDelayCountDownTimerTv, howLongLeftInMilliSecond);
 
-    @Override
-    public void onFinish() {
-        noDelayCountDownTimerTv.setText(R.string.finishing_counting_down);
-    }
-});
+    noDelayCountDownTimer = noDelayCountDownTimerInjector.inject(new NoDelayCountDownTimerInjector.ICountDownTimerCallback() {
+        @Override
+        public void onTick(long howLongLeft, String howLongSecondLeftInStringFormat) {
+            String result = getString(R.string.no_delay_count_down_timer, howLongSecondLeftInStringFormat);
+
+            noDelayCountDownTimerTv.setText(result);
+        }
+
+        @Override
+        public void onFinish() {
+            noDelayCountDownTimerTv.setText(R.string.finishing_counting_down);
+        }
+    });
+}
 ```
 
 ### Start or cancel
