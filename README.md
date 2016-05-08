@@ -7,7 +7,7 @@ Smooth callback-able CountDownTimer with injection.
 # Install to project from jCenter
 ### Gradle dependency
 ``` groovy
-`compile 'net.imknown:NoDelayCountDownTimerLib:1.1.1'`
+compile 'net.imknown:NoDelayCountDownTimerLib:1.1.1'
  ```
 
 ### Maven dependency
