@@ -56,12 +56,14 @@ private void initNoDelayCountDownTimer() {
 }
 ```
 
-### Start or cancel
+### Start
 ``` java
 // set before start to shun some calc bug
 noDelayCountDownTimerInjector.setHowLongLeftInMilliSecond(NoDelayCountDownTimer.SIXTY_SECONDS);
 noDelayCountDownTimer.start();
 ```
+
+### Cancel
 ``` java
 noDelayCountDownTimer.cancel();
 ```
