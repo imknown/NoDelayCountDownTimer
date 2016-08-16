@@ -1,5 +1,5 @@
 # NoDelayCountDownTimer
-Smooth callback-able CountDownTimer with 'Decorator'.
+Smooth callback-able CountDownTimer-like with 'Decorator'.
 
 ### Screen record
 ![github](https://raw.githubusercontent.com/imknown/NoDelayCountDownTimer/master/Art/screen_record.gif "github")
