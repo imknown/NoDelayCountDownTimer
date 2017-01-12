@@ -7,7 +7,7 @@ Smooth callback-able CountDownTimer-like with 'Decorator'.
 # Install to project from jCenter
 ### Gradle dependency
 ``` groovy
-compile 'net.imknown:NoDelayCountDownTimerLib:1.1.1'
+compile 'net.imknown:NoDelayCountDownTimerLib:1.2.0'
  ```
 
 ### Maven dependency
@@ -15,15 +15,13 @@ compile 'net.imknown:NoDelayCountDownTimerLib:1.1.1'
  <dependency>
    <groupId>net.imknown</groupId>
    <artifactId>NoDelayCountDownTimerLib</artifactId>
-   <version>1.1.1</version>
+   <version>1.2.0</version>
    <type>pom</type>
  </dependency>
  ```
 
 ### More info
 https://bintray.com/imknown/maven/NoDelayCountDownTimer/view
-
-
 
 # Usage (Core codes)
 ### Define
@@ -38,19 +36,24 @@ private TextView noDelayCountDownTimerTv;
 ...
 
 private void initNoDelayCountDownTimer() {
-    noDelayCountDownTimerInjector = new NoDelayCountDownTimerInjector<TextView>(noDelayCountDownTimerTv, howLongLeftInMilliSecond);
+    noDelayCountDownTimerInjector = new NoDelayCountDownTimerInjector(howLongLeftInMilliSecond);
 
-    noDelayCountDownTimer = noDelayCountDownTimerInjector.inject(new NoDelayCountDownTimerInjector.ICountDownTimerCallback() {
+    noDelayCountDownTimer = noDelayCountDownTimerInjector.inject(new ICountDownTimerCallback() {
         @Override
-        public void onTick(long howLongLeft, String howLongSecondLeftInStringFormat) {
-            String result = getString(R.string.no_delay_count_down_timer, howLongSecondLeftInStringFormat);
-
+        public void onTick(long howLongLeft, String result) {
             noDelayCountDownTimerTv.setText(result);
         }
 
         @Override
         public void onFinish() {
             noDelayCountDownTimerTv.setText(R.string.finishing_counting_down);
+        }
+
+        @Override
+        public String getHowLongSecondLeftInStringFormat(long howLongLeft) {
+            String result = DateUtils.formatDuring(howLongLeft, MainActivity.this);
+
+            return getString(R.string.no_delay_count_down_timer, result);
         }
     });
 }
