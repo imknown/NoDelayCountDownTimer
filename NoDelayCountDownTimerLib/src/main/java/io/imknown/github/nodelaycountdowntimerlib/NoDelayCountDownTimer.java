@@ -1,13 +1,14 @@
 package io.imknown.github.nodelaycountdowntimerlib;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 
+import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * @author imknown on 2016/4/19.
  * @see android.os.CountDownTimer
  */
 public abstract class NoDelayCountDownTimer {
@@ -22,13 +23,12 @@ public abstract class NoDelayCountDownTimer {
      * For normal Validate Code to count down
      */
     public final static long SIXTY_SECONDS = TimeUnit.SECONDS.toMillis(60);
-
     // endregion
 
     /**
      * Millis since epoch when alarm should stop.
      */
-    private final long mMillisInFuture;
+    protected final long mMillisInFuture;
 
     /**
      * The interval in millis that the user receives callbacks
@@ -87,67 +87,49 @@ public abstract class NoDelayCountDownTimer {
 
     private static final int MSG = 1;
 
-    private Handler mHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
+    private static final class NoDelayHandler extends Handler {
 
-            synchronized (NoDelayCountDownTimer.this) {
-                if (mCancelled) {
-                    return true;
+        private WeakReference<NoDelayCountDownTimer> mNoDelayCountDownTimer;
+
+        private NoDelayHandler(NoDelayCountDownTimer noDelayCountDownTimer) {
+            mNoDelayCountDownTimer = new WeakReference<>(noDelayCountDownTimer);
+        }
+
+        private NoDelayCountDownTimer mThis;
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (mNoDelayCountDownTimer == null
+                    || (mThis = mNoDelayCountDownTimer.get()) == null) {
+                return;
+            }
+
+            synchronized (mThis) {
+                if (mThis.mCancelled) {
+                    return;
                 }
 
-                final long millisLeft = mStopTimeInFuture - SystemClock.elapsedRealtime();
+                final long millisLeft = mThis.mStopTimeInFuture - SystemClock.elapsedRealtime();
 
-                if (millisLeft <= 0 || millisLeft < mCountdownInterval) {
-                    onFinish();
+                if (millisLeft <= 0 || millisLeft < mThis.mCountdownInterval) {
+                    mThis.onFinish();
                 } else {
                     long lastTickStart = SystemClock.elapsedRealtime();
-                    onTick(millisLeft);
+                    mThis.onTick(millisLeft);
 
                     // take into account user's onTick taking time to execute
-                    long delay = lastTickStart + mCountdownInterval - SystemClock.elapsedRealtime();
+                    long delay = lastTickStart + mThis.mCountdownInterval - SystemClock.elapsedRealtime();
 
                     // special case: user's onTick took more than interval to complete, skip to next interval
                     while (delay < 0) {
-                        delay += mCountdownInterval;
+                        delay += mThis.mCountdownInterval;
                     }
 
-                    mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG), delay);
+                    sendMessageDelayed(obtainMessage(MSG), delay);
                 }
             }
-
-            return true;
         }
-    });
-
-    /**
-     * @param mss interval in millisecond
-     * @return formatted date string
-     */
-    public static String formatDuring(long mss, Context context) {
-        String time = "";
-
-        long days = mss / (1000 * 60 * 60 * 24);
-        long hours = (mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
-        long minutes = (mss % (1000 * 60 * 60)) / (1000 * 60);
-        long seconds = (mss % (1000 * 60)) / 1000;
-
-        if (seconds != 0) {
-            time = seconds + context.getString(R.string.second);
-        }
-
-        if (minutes != 0) {
-            time = minutes + context.getString(R.string.minute) + time;
-        }
-
-        if (hours != 0) {
-            time = hours + context.getString(R.string.hour) + time;
-        }
-
-        if (days != 0) {
-            time = days + context.getString(R.string.day) + time;
-        }
-
-        return time;
     }
+
+    private Handler mHandler = new NoDelayHandler(this);
 }

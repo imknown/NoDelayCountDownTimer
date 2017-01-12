@@ -13,9 +13,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import io.imknown.github.nodelaycountdowntimerlib.DateUtils;
+import io.imknown.github.nodelaycountdowntimerlib.ICountDownTimerCallback;
 import io.imknown.github.nodelaycountdowntimerlib.NoDelayCountDownTimer;
 import io.imknown.github.nodelaycountdowntimerlib.NoDelayCountDownTimerInjector;
 
+/**
+ * @author imknown on 2016/4/19.
+ */
 public class MainActivity extends Activity {
     private CountDownTimer googleCountDownTimer;
     private NoDelayCountDownTimer noDelayCountDownTimer;
@@ -89,7 +94,7 @@ public class MainActivity extends Activity {
         googleCountDownTimer = new CountDownTimer(howLongLeftInMilliSecond, NoDelayCountDownTimer.ONE_SECOND) {
             @Override
             public void onTick(long millisUntilFinished) {
-                String howLongSecondLeftInStringFormat = NoDelayCountDownTimer.formatDuring(millisUntilFinished, MainActivity.this);
+                String howLongSecondLeftInStringFormat = DateUtils.formatDuring(millisUntilFinished, MainActivity.this);
                 String result = getString(R.string.google_count_down_timer, howLongSecondLeftInStringFormat);
 
                 googleCountDownTimerTv.setText(result);
@@ -107,13 +112,11 @@ public class MainActivity extends Activity {
     }
 
     private void initNoDelayCountDownTimer() {
-        noDelayCountDownTimerInjector = new NoDelayCountDownTimerInjector<TextView>(noDelayCountDownTimerTv, howLongLeftInMilliSecond);
+        noDelayCountDownTimerInjector = new NoDelayCountDownTimerInjector(howLongLeftInMilliSecond, this);
 
-        noDelayCountDownTimer = noDelayCountDownTimerInjector.inject(new NoDelayCountDownTimerInjector.ICountDownTimerCallback() {
+        noDelayCountDownTimer = noDelayCountDownTimerInjector.inject(new ICountDownTimerCallback() {
             @Override
-            public void onTick(long howLongLeft, String howLongSecondLeftInStringFormat) {
-                String result = getString(R.string.no_delay_count_down_timer, howLongSecondLeftInStringFormat);
-
+            public void onTick(long howLongLeft, String result) {
                 noDelayCountDownTimerTv.setText(result);
             }
 
@@ -121,11 +124,17 @@ public class MainActivity extends Activity {
             public void onFinish() {
                 noDelayCountDownTimerTv.setText(R.string.finishing_counting_down);
             }
+
+            @Override
+            public String getHowLongSecondLeftInStringFormat(long howLongLeft) {
+                String result = DateUtils.formatDuring(howLongLeft, MainActivity.this);
+
+                return getString(R.string.no_delay_count_down_timer, result);
+            }
         });
     }
 
     private void startCountDownTimer() {
-        initDatetime();
         noDelayCountDownTimerInjector.setHowLongLeftInMilliSecond(howLongLeftInMilliSecond);
 
         googleCountDownTimer.start();
