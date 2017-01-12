@@ -112,7 +112,7 @@ public class MainActivity extends Activity {
     }
 
     private void initNoDelayCountDownTimer() {
-        noDelayCountDownTimerInjector = new NoDelayCountDownTimerInjector(howLongLeftInMilliSecond, this);
+        noDelayCountDownTimerInjector = new NoDelayCountDownTimerInjector(howLongLeftInMilliSecond);
 
         noDelayCountDownTimer = noDelayCountDownTimerInjector.inject(new ICountDownTimerCallback() {
             @Override

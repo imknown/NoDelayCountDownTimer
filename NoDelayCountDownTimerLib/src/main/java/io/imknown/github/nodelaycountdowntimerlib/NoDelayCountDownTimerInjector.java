@@ -1,6 +1,5 @@
 package io.imknown.github.nodelaycountdowntimerlib;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 /**
@@ -12,13 +11,10 @@ public class NoDelayCountDownTimerInjector {
      */
     protected long howLongLeftInMilliSecond = NoDelayCountDownTimer.SIXTY_SECONDS;
 
-    protected Context mContext;
-
     protected ICountDownTimerCallback iCountDownTimerCallback;
 
-    public NoDelayCountDownTimerInjector(long howLongLeftInMilliSecond, @NonNull Context context) {
+    public NoDelayCountDownTimerInjector(long howLongLeftInMilliSecond) {
         this.howLongLeftInMilliSecond = howLongLeftInMilliSecond;
-        this.mContext = context;
     }
 
     public void setHowLongLeftInMilliSecond(long howLongLeftInMilliSecond) {
