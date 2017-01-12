@@ -2,15 +2,15 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def code = 4
-version = "1.1.1"
+def code = 5
+version = "1.2.0"
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 7
+        minSdkVersion 8
         targetSdkVersion 25
         versionCode code
         versionName version
@@ -33,7 +33,7 @@ dependencies {
 // region [bintray]
 def siteUrl = 'https://github.com/imknown/NoDelayCountDownTimer'
 def gitUrl = 'https://github.com/imknown/NoDelayCountDownTimer.git'
-def projectDescription = 'Smooth callback-able CountDownTimer with injection.'
+def projectDescription = 'Smooth callback-able CountDownTimer-like with \'Decorator\'.'
 group = "net.imknown"
 
 def packagingType = 'aar'
