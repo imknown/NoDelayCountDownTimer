@@ -1,11 +1,11 @@
-<manifest package="com.dengdeng123.nodelaycountdowntimer"
+<manifest package="net.imknown.nodelaycountdowntimer"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:name=".MyApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name">
-        <activity android:name="com.dengdeng123.nodelaycountdowntimer.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

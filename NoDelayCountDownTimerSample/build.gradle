@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "com.dengdeng123.nodelaycountdowntimer"
+        applicationId "net.imknown.nodelaycountdowntimer"
         minSdkVersion 8
         targetSdkVersion 25
         versionCode 1
